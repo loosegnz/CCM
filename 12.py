@@ -7,7 +7,7 @@ import numpy as np
 
 # --- Matplotlib Configuration for Chinese Characters ---
 # This setup is crucial for displaying Chinese labels correctly in the plots.
-plt.rcParams['font.family'] = ['SimHei']
+plt.rcParams['font.sans-serif'] = ['SimHei']
 plt.rcParams['axes.unicode_minus'] = False
 plt.rcParams['axes.edgecolor'] = 'grey'
 plt.rcParams['axes.linewidth'] = 1.0
