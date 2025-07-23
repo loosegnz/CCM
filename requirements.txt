@@ -1,0 +1,6 @@
+streamlit
+numpy
+matplotlib
+PyQt5
+sys
+io
