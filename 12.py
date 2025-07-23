@@ -89,7 +89,7 @@ def plot_sharkfin_put(ax, params):
     for x, y in zip([knock_out, strike, strike*1.1], [max_ret, min_ret, min_ret]):
         ax.text(x, y + 0.1, f'{y:.2f}%', ha='center', va='bottom', color='black', fontsize=12)
 
-    ax.text((strike + knock_out) / 2, max_ret * 2 / 3, f'参与率{participation_rate:.2f}%',
+    ax.text((strike + knock_out) / 2, max_ret * 2 / 3, f'参与率{participation_rate:.1f}%',
             ha='left', va='center', color='black', fontsize=12)
     if type0 == '单鲨':
         ax.text(knock_out * 0.95, knock_ret * 1.1, f'敲出{knock_ret:,.2f}%',
@@ -364,29 +364,29 @@ def main():
         # Dynamically create widgets for each parameter
         # The value from the widget directly updates the session state dictionary
         if 'strike' in params:
-            params['strike'] = st.number_input("行权价(%)", value=params['strike'], format="%.2f")
+            params['strike'] = st.number_input("行权价(%)", value=params['strike'])
         if 'knock_in' in params:
-            params['knock_in'] = st.number_input("敲入价(%)", value=params['knock_in'], format="%.2f")
+            params['knock_in'] = st.number_input("敲入价(%)", value=params['knock_in'])
         if 'knock_out' in params:
-            params['knock_out'] = st.number_input("敲出价(%)", value=params['knock_out'], format="%.2f")
+            params['knock_out'] = st.number_input("敲出价(%)", value=params['knock_out'])
         if 'participation_rate' in params:
-            params['participation_rate'] = st.number_input("参与率(%)", value=params['participation_rate'], format="%.2f")
+            params['participation_rate'] = st.number_input("参与率(%)", value=params['participation_rate'])
         if 'min_ret' in params:
-            params['min_ret'] = st.number_input("最低收益(%)", value=params['min_ret'], format="%.2f")
+            params['min_ret'] = st.number_input("最低收益(%)", value=params['min_ret'])
         if 'max_ret' in params:
-            params['max_ret'] = st.number_input("最高收益(%)", value=params['max_ret'], format="%.2f")
+            params['max_ret'] = st.number_input("最高收益(%)", value=params['max_ret'])
         if 'knock_ret' in params:
-            params['knock_ret'] = st.number_input("敲出收益(%)", value=params['knock_ret'], format="%.2f")
+            params['knock_ret'] = st.number_input("敲出收益(%)", value=params['knock_ret'])
         if 'ret1' in params:
-            params['ret1'] = st.number_input("保底/敲入未敲出收益(%)", value=params['ret1'], format="%.2f")
+            params['ret1'] = st.number_input("保底/敲入未敲出收益(%)", value=params['ret1'])
         if 'ret2' in params:
-            params['ret2'] = st.number_input("中间/未敲入未敲出收益(%)", value=params['ret2'], format="%.2f")
+            params['ret2'] = st.number_input("中间/未敲入未敲出收益(%)", value=params['ret2'])
         if 'ret3' in params:
-            params['ret3'] = st.number_input("敲出收益(%)", value=params['ret3'], format="%.2f")
+            params['ret3'] = st.number_input("敲出收益(%)", value=params['ret3'])
         
         params['month'] = st.text_input("期限", value=params['month'])
         params['asset'] = st.text_input("标的资产", value=params['asset'])
-        params['cost'] = st.number_input("费率(%)", value=params['cost'], format="%.2f")
+        params['cost'] = st.number_input("费率(%)", value=params['cost'])
         
         if 'type' in params:
             type_options = ['单鲨', '价差']
@@ -403,7 +403,7 @@ def main():
     )
 
     # Area for parsing parameters from pasted text
-    with st.expander("📝 通过文本一键解析参数", expanded=False):
+    with st.expander("📝 从文本解析参数", expanded=True):
         st.text_area("在此粘贴参数表格 (通常是Excel中的两行，包含表头和数据)", height=100, key="parse_text")
         if st.button("一键解析"):
             parse_parameters(st.session_state.parse_text)
@@ -414,8 +414,6 @@ def main():
     col1, col2 = st.columns([5, 1]) # Create columns to align plot and download button
     
     with col1:
-        st.subheader("收益结构图")
-        
         # Create the plot
         fig, ax = plt.subplots(figsize=(8, 6))
         
@@ -427,21 +425,6 @@ def main():
         plot_func(ax, current_params)
         fig.tight_layout()
         st.pyplot(fig)
-
-    # --- Download Button ---
-    # Save the figure to a bytes buffer to be used by the download button
-    buf = io.BytesIO()
-    fig.savefig(buf, format="png", dpi=200)
-    buf.seek(0)
-    
-    with col2:
-        st.download_button(
-            label="下载图片",
-            data=buf,
-            file_name=f"{st.session_state.current_option.replace('/', '_')}_chart.png",
-            mime="image/png"
-        )
-
 
 if __name__ == "__main__":
     main()
