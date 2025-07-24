@@ -15,7 +15,7 @@ plt.rcParams['axes.unicode_minus'] = False
 plt.rcParams['axes.edgecolor'] = 'grey'
 plt.rcParams['axes.linewidth'] = 1.0
 
-
+print("当前字体名：", my_font.get_name())
 # --- PLOTTING FUNCTIONS ---
 # Each function now takes the matplotlib axes object `ax` and `params` dictionary as arguments.
 
