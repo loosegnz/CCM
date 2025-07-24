@@ -6,11 +6,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib.font_manager as fm
 
-# 加载 SimHei 字体文件
-my_font_path = './SimHei.ttf'
-my_font = fm.FontProperties(fname=my_font_path)
+# 加载 ttf 字体
+my_font = fm.FontProperties(fname='SimHei.ttf')
 
-# 设置全局字体为 SimHei
+# 获取字体名，并设置到 rcParams 中
 plt.rcParams['font.sans-serif'] = [my_font.get_name()]
 plt.rcParams['axes.unicode_minus'] = False
 plt.rcParams['axes.edgecolor'] = 'grey'
